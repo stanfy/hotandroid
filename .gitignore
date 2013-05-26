@@ -1,0 +1,19 @@
+# Android
+bin
+gen
+
+# Eclipse
+.classpath
+.project
+.checkstyle
+
+# Idea
+.idea
+*.iml
+*.ipr
+*.iws
+
+# Gradle
+.gradle
+build
+

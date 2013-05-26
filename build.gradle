@@ -1,0 +1,67 @@
+// This build script makes everything work well
+
+import java.security.MessageDigest
+
+def sampleTests = subprojects.collect { it.name } 
+
+
+def buildDir = file('build')
+def tmpDir = file("$buildDir/tmp")
+tmpDir.mkdirs()
+project.ext.buildDir = buildDir
+project.ext.tmpDir = tmpDir
+project.ext.cheater = false
+
+def stampsFile = file("$buildDir/tests.stamp")
+
+task makeTestStamps(type : MakeTestStamps) {
+
+  inputDirs = sampleTests.collect { file("$it/src/instrumentTest") } + file("build.gradle")
+  resultFile = stampsFile
+
+}
+
+task addStampsToServer(dependsOn : 'makeTestStamps') << {
+  ant.copy(todir : "../env/server/tools", file : stampsFile)
+}
+
+task checkTestStamp(dependsOn : 'makeTestStamps') << {
+  def current = tasks['makeTestStamps'].resultFile.text
+  def mustFile = new File(tmpDir, "must.stamp")
+  def mustOut = new BufferedOutputStream(new FileOutputStream(mustFile))
+  mustOut << new URL("http://stanfy-engine.appspot.com/tools/tests.stamp").openStream()
+  mustOut.close()
+  def must = mustFile.text
+  project.ext.cheater = must != current
+  println "Cheater: $project.cheater"
+}
+
+class MakeTestStamps extends DefaultTask {
+
+  List<File> inputDirs
+
+  File resultFile
+
+  @TaskAction
+  void makeIt() {
+    resultFile.delete()
+    resultFile << inputDirs.inject("") {String stamp, File inF ->
+      if (!inF.exists()) { throw new IllegalArgumentException("Bad input $inF") }
+      File f = null
+      if (inF.directory) {
+        f = new File("$project.tmpDir/${inF.toString().replaceAll('\\W+', '')}.zip")
+        ant.zip(destfile : f) {
+          fileset(dir : inF)
+        }
+      } else {
+        f = inF
+      }
+      def messageDigest = MessageDigest.getInstance("SHA1")
+      f.eachByte(1 << 20) { byte[] buf, int bytesRead ->
+        messageDigest.update(buf, 0, bytesRead);
+      }
+      stamp += new BigInteger(1, messageDigest.digest()).toString(16).padLeft(40, '0' )
+    }
+  }
+
+}

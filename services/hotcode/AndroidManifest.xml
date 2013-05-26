@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.hotcode"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="7"
+        android:targetSdkVersion="17" />
+    
+    <permission android:name="com.example.hotcode.SERVICES" />
+    
+    <uses-permission android:name="com.example.hotcode.SERVICES" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application android:allowBackup="false">
+        
+        <service
+            android:exported="true"
+            android:name="HotService"
+            android:permission="com.example.hotcode.SERVICES">
+            <intent-filter>
+                <action android:name="edu.hotcode.write"/>
+                <data android:host="edu.hotcode" android:scheme="content" android:mimeType="*/*" />
+            </intent-filter>
+        </service>
+        
+    </application>
+
+</manifest>
