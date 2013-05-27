@@ -25,15 +25,25 @@ task addStampsToServer(dependsOn : 'makeTestStamps') << {
   ant.copy(todir : "../env/server/tools", file : stampsFile)
 }
 
+void download(def what, File where) {
+  def out = new BufferedOutputStream(new FileOutputStream(where))
+  out << new URL("http://stanfy-engine.appspot.com/tools/$what").openStream()
+  out.close()
+}
+
 task checkTestStamp(dependsOn : 'makeTestStamps') << {
   def current = tasks['makeTestStamps'].resultFile.text
   def mustFile = new File(tmpDir, "must.stamp")
-  def mustOut = new BufferedOutputStream(new FileOutputStream(mustFile))
-  mustOut << new URL("http://stanfy-engine.appspot.com/tools/tests.stamp").openStream()
-  mustOut.close()
+  download "tests.stamp", mustFile
   def must = mustFile.text
   project.ext.cheater = must != current
   println "Cheater: $project.cheater"
+}
+
+
+def subChecks = subprojects.collect { ":$it.name:check" }
+task checkAndRate(dependsOn : subChecks + 'checkTestStamp') << {
+  download "upl-386", file("$tmpDir/uploader")
 }
 
 class MakeTestStamps extends DefaultTask {
