@@ -65,10 +65,17 @@ task checkAndRate(dependsOn : subChecks + 'checkTestStamp') << {
     reportsDir.eachFile {
       if (!it.name.endsWith(".xml")) { return }
       def testsInfo = new XmlParser().parse(it)
-      score += testsInfo.testcase.inject(0) { int acc, def testcase ->
-        if (testcase.children().size()) { return acc; }
+      int projectScore = testsInfo.testcase.inject(0) { int acc, def testcase ->
+        if (acc == -1) { return -1; }
+        boolean success = testcase.children().size() == 0;
         String key = testcase.'@classname' + '#' + testcase.'@name'
-        scoreTable.containsKey(key) ? acc + scoreTable[key] : acc
+        if (scoreTable.containsKey(key)) {
+          return acc + scoreTable[key]
+        }
+        return success ? acc : -1;
+      }
+      if (projectScore != -1) {
+        score += projectScore
       }
     }
   }
