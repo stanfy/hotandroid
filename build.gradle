@@ -53,6 +53,10 @@ def scoreTable = [
 
 def subChecks = subprojects.collect { ":$it.name:check" }
 task checkAndRate(dependsOn : subChecks + 'checkTestStamp') << {
+  if (project.cheater) {
+    println "\t\t\t\t\tSorry cheater!"
+    return
+  }
   int score = 0
   
   // get score
