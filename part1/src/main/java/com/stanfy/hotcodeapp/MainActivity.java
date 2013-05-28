@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
 
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+       super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
     final View mainPanel = findViewById(R.id.main_panel);
