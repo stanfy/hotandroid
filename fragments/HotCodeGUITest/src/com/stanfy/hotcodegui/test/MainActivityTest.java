@@ -80,7 +80,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     if (getScreenSize() != Configuration.SCREENLAYOUT_SIZE_LARGE) {
       Intent intent = activity.getLastIntent();
       String className = intent.getComponent().getClassName();
-      int position = intent.getExtras().getInt(DetailsFragment.ARG_SELECTED_POSITION);
+      int position = intent.getExtras().getInt(DetailsFragment.ARG_COLOR);
       
       assertEquals("com.stanfy.hotcodegui.DetailsActivity", className);
       assertEquals(2, position);
@@ -99,7 +99,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     initFragments();
     if (getScreenSize() != Configuration.SCREENLAYOUT_SIZE_LARGE) {
       Intent intent = activity.getLastIntent();
-      int position = intent.getExtras().getInt(DetailsFragment.ARG_SELECTED_POSITION);
+      int position = intent.getExtras().getInt(DetailsFragment.ARG_COLOR);
       assertEquals(3, position);
     } else {
       assertEquals(Color.YELLOW, getDetailsFragmentColor());

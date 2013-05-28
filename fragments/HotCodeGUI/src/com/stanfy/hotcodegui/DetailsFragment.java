@@ -1,5 +1,8 @@
 package com.stanfy.hotcodegui;
 
+import com.stanfy.hotcodegui.TitlesFragment.ColorAdapter;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,34 +16,28 @@ import android.view.ViewGroup;
 public class DetailsFragment extends Fragment {
 
   /** Fragment argument key. */
-  public static final String ARG_SELECTED_POSITION = "selected_position";
+  public static final String ARG_COLOR = "selected_color";
 
-  public static DetailsFragment newInstance(final int index) {
+  public static DetailsFragment newInstance(final int color) {
     DetailsFragment fragment = new DetailsFragment();
     Bundle args = new Bundle();
-    args.putInt(ARG_SELECTED_POSITION, index);
+    args.putInt(ARG_COLOR, color);
     fragment.setArguments(args);
     return fragment;
   }
 
-  private int getShownPosition() {
+  public int getCurrentColor() {
     Bundle args = getArguments();
-    return args == null ? 0 : args.getInt(ARG_SELECTED_POSITION);
+    return args == null ? 0 : args.getInt(ARG_COLOR);
   }
 
   @Override
   public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-    return new View(getActivity());
-  }
-
-  @Override
-  public void onViewCreated(final View view, final Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-    setColor(getShownPosition());
-  }
-
-  public void setColor(final int index) {
-    getView().setBackgroundColor(MainActivity.colors[index]);
+    View view = new View(getActivity());
+    Bundle args = getArguments();
+    final int color = args == null ? 0 : args.getInt(ARG_COLOR);
+    view.setBackgroundColor(color);
+    return view;
   }
 
 }

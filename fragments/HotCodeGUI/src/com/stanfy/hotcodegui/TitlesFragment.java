@@ -1,9 +1,13 @@
 package com.stanfy.hotcodegui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -17,21 +21,28 @@ public class TitlesFragment extends ListFragment {
   private static final String KEY_CURRENT_POS = "current_pos";
   /** Current position. */
   private int currentPosition;
+  /** State with two fragments. */
+  private boolean dualPane;
 
   @Override
   public void onActivityCreated(final Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
-    getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-        android.R.layout.simple_list_item_activated_1, MainActivity.colorTitles);
+    ColorAdapter adapter = new ColorAdapter(getActivity(), android.R.layout.simple_list_item_activated_1);
     setListAdapter(adapter);
     setListShown(true);
+    
+    View detailsFrame = getActivity().findViewById(R.id.details);
+    dualPane = detailsFrame != null && detailsFrame.getVisibility() == View.VISIBLE;
 
     if (savedInstanceState != null) {
-      showDetails(savedInstanceState.getInt(KEY_CURRENT_POS, 0));
+      currentPosition = savedInstanceState.getInt(KEY_CURRENT_POS, 0);
     }
-
+    
+    if (dualPane) {
+      getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+      showDetails(currentPosition);
+    }
   }
 
   @Override
@@ -41,22 +52,65 @@ public class TitlesFragment extends ListFragment {
 
   private void showDetails(final int position) {
     currentPosition = position;
-    getListView().setItemChecked(position, true);
-
-    DetailsFragment details = (DetailsFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.details);
-    if (details != null && details.getView() != null) {
-      details.setColor(position);
+    
+    if (dualPane) {
+      getListView().setItemChecked(position, true);
+      DetailsFragment details = (DetailsFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.details);
+      if (details == null || details.getCurrentColor() != getColor(currentPosition)) {
+        details = DetailsFragment.newInstance(getColor(position));
+        getActivity().getSupportFragmentManager().beginTransaction()
+            .replace(R.id.details, details)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .commit();
+      }
     } else {
+      getListView().clearChoices();
       Intent intent = new Intent(getActivity(), DetailsActivity.class);
-      intent.putExtra(DetailsFragment.ARG_SELECTED_POSITION, position);
+      intent.putExtra(DetailsFragment.ARG_COLOR, getColor(position));
       getActivity().startActivity(intent);
     }
+  }
+  
+  public int getColor(final int position) {
+    final int indx = Math.abs(position - (MainActivity.COLORS.length - 1));
+    //TODO 
+    // int indx = position; 
+    return MainActivity.COLORS[indx];
+    
   }
 
   @Override
   public void onSaveInstanceState(final Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putInt(KEY_CURRENT_POS, currentPosition);
+  }
+  
+  /**
+   * Color titles adapter.
+   * @author Olexandr Kusakov (Stanfy - http://stanfy.com)
+   */
+  public static class ColorAdapter extends ArrayAdapter<String> {
+    
+    /** Array of color titles. */
+    public static final String[] COLOR_TITLES = {"Red", "Green", "Blue", "Yellow", "Black"};
+
+    public ColorAdapter(final Context context, final int textViewResourceId) {
+      super(context, textViewResourceId, COLOR_TITLES);
+    }
+    
+    @Override
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
+      return super.getView(position, convertView, parent);
+    }
+    
+    @Override
+    public String getItem(final int position) {
+      final int indx = Math.abs(position - (COLOR_TITLES.length - 1));
+      return super.getItem(indx);
+      //TODO 
+      // return super.getItem(position);
+    }
+    
   }
 
 }

@@ -21,7 +21,7 @@
             android:permission="com.example.hotcode.SERVICES">
             <intent-filter>
                 <action android:name="edu.hotcode.write"/>
-                <data android:host="edu.hotcode" android:scheme="content" android:mimeType="*/*" />
+                <data android:scheme="content" android:mimeType="*/*" />
             </intent-filter>
         </service>
         

@@ -7,7 +7,7 @@
     <uses-sdk
         android:minSdkVersion="7"
         android:targetSdkVersion="17" />
-    
+
     <uses-permission android:name="com.example.hotcode.SERVICES" />
 
     <application

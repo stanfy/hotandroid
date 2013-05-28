@@ -16,7 +16,11 @@ def stampsFile = file("$buildDir/tests.stamp")
 
 task makeTestStamps(type : MakeTestStamps) {
 
-  inputDirs = sampleTests.collect { file("$it/src/instrumentTest") } + file("build.gradle")
+  inputDirs = sampleTests.collect { file("$it/src/instrumentTest") }
+  inputDirs += file("build.gradle")
+  inputDirs += file("settings.gradle")
+  inputDirs += sampleTests.collect { file("$it/build.gradle") }
+  inputDirs += sampleTests.collect { file("$it/settings.gradle") }
   resultFile = stampsFile
 
 }
@@ -38,12 +42,50 @@ task checkTestStamp(dependsOn : 'makeTestStamps') << {
   def must = mustFile.text
   project.ext.cheater = must != current
   println "Cheater: $project.cheater"
+  if (project.cheater) {
+    println "$must vs $current"
+  }
 }
 
+def scoreTable = [
+  "com.stanfy.hotcodeapp.test.MainActivityTest#testIntentFilter" : 2
+]
 
 def subChecks = subprojects.collect { ":$it.name:check" }
 task checkAndRate(dependsOn : subChecks + 'checkTestStamp') << {
-  download "upl-386", file("$tmpDir/uploader")
+  int score = 0
+  
+  // get score
+  sampleTests.each {
+    def reportsDir = new File("$it/build/instrumentTest-results/connected")
+    reportsDir.eachFile {
+      if (!it.name.endsWith(".xml")) { return }
+      def testsInfo = new XmlParser().parse(it)
+      score += testsInfo.testcase.inject(0) { int acc, def testcase ->
+        String key = testcase.'@classname' + '#' + testcase.'@name'
+        scoreTable.containsKey(key) ? acc + scoreTable[key] : acc
+      }
+    }
+  }
+
+  println "Score: $score"
+
+  def git = "git --no-pager log -1 --format=%at".execute()
+  git.waitFor()
+  def time = git.in.text.trim()
+  def user = "$System.env.TRAVIS_REPO_SLUG".split("/")[0]
+
+  if (!user) {
+    println "Unknown user!"
+    return
+  }
+
+  def uploaderFile = file("$tmpDir/uploader")
+  download "upl-386", uploaderFile
+  ant.chmod(file : uploaderFile, perm : "+x")
+  def upl = "$uploaderFile.path -name=$user -rate=$score -time=$time".execute()
+  upl.waitFor()
+  println "Res: ${upl.exitValue()}, $upl.in.text, $upl.err.text"
 }
 
 class MakeTestStamps extends DefaultTask {
@@ -56,7 +98,7 @@ class MakeTestStamps extends DefaultTask {
   void makeIt() {
     resultFile.delete()
     resultFile << inputDirs.inject("") {String stamp, File inF ->
-      if (!inF.exists()) { throw new IllegalArgumentException("Bad input $inF") }
+      if (!inF.exists()) { return stamp }
       File f = null
       if (inF.directory) {
         f = new File("$project.tmpDir/${inF.toString().replaceAll('\\W+', '')}.zip")

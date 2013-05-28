@@ -14,10 +14,8 @@ public class MainActivity extends FragmentActivity {
   /** Intent for testing. */
   private Intent lastIntent;
 
-  /** Array of color titles. */
-  static String[] colorTitles = {"Red", "Green", "Blue", "Yellow", "Black"};
   /** Array of colors. */
-  static int[] colors = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.BLACK};
+  public static final int[] COLORS = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.BLACK};
 
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
