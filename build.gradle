@@ -98,6 +98,14 @@ class MakeTestStamps extends DefaultTask {
 
   File resultFile
 
+  private static String getHash(File f) {
+      def messageDigest = MessageDigest.getInstance("SHA1")
+      f.eachByte(1 << 20) { byte[] buf, int bytesRead ->
+        messageDigest.update(buf, 0, bytesRead);
+      }
+      return new BigInteger(1, messageDigest.digest()).toString(16).padLeft(40, '0' )
+  }
+
   @TaskAction
   void makeIt() {
     resultFile.delete()
@@ -105,18 +113,15 @@ class MakeTestStamps extends DefaultTask {
       if (!inF.exists()) { return stamp }
       File f = null
       if (inF.directory) {
-        f = new File("$project.tmpDir/${inF.toString().replaceAll('\\W+', '')}.zip")
-        ant.zip(destfile : f) {
-          fileset(dir : inF)
+        inF.eachFileRecurse(groovy.io.FileType.FILES) {
+          if (it.name.endsWith("java")) {
+            stamp += MakeTestStamps.getHash(it)
+          }
         }
       } else {
-        f = inF
+        stamp += MakeTestStamps.getHash(inF)
       }
-      def messageDigest = MessageDigest.getInstance("SHA1")
-      f.eachByte(1 << 20) { byte[] buf, int bytesRead ->
-        messageDigest.update(buf, 0, bytesRead);
-      }
-      stamp += new BigInteger(1, messageDigest.digest()).toString(16).padLeft(40, '0' )
+      return stamp
     }
   }
 
