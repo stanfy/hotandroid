@@ -107,7 +107,7 @@ class MakeTestStamps extends DefaultTask {
       if (inF.directory) {
         f = new File("$project.tmpDir/${inF.toString().replaceAll('\\W+', '')}.zip")
         ant.zip(destfile : f) {
-          fileset(dir : inF)
+          fileset(dir : inF, includes : "**/*.java")
         }
       } else {
         f = inF
