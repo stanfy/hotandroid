@@ -60,6 +60,9 @@ public class MainActivity extends Activity {
         startService(new Intent(MainActivity.this, ExampleService.class));
       }
     });
+
+    throw new RuntimeException("test");
+
   }
 
   @Override
