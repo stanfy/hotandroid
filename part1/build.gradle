@@ -24,4 +24,10 @@ android {
 
 }
 
+project.gradle.taskGraph.whenReady {
+  connectedInstrumentTest {
+    ignoreFailures = true
+  }
+}
+
 check.dependsOn('connectedCheck')
