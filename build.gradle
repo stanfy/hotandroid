@@ -63,6 +63,7 @@ task checkAndRate(dependsOn : subChecks + 'checkTestStamp') << {
   int score = 0
   sampleTests.each {
     def reportsDir = new File("$it/build/instrumentTest-results/connected")
+    if (!reportsDir.exists()) { return }
     reportsDir.eachFile {
       if (!it.name.endsWith(".xml")) { return }
       def testsInfo = new XmlParser().parse(it)
