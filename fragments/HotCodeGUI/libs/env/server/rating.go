@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 const (
@@ -16,6 +17,7 @@ const (
 type Rate struct {
 	Name string
 	Rate int
+	Date time.Time
 }
 
 func init() {
@@ -73,6 +75,12 @@ func postRate(w http.ResponseWriter, r *http.Request) {
 
 	if len(rate.Name) == 0 {
 		return
+	}
+
+	if unixTime, err := strconv.ParseInt(r.FormValue("time"), 10, 64); err != nil {
+		return
+	} else {
+		rate.Date = time.Unix(unixTime, 0)
 	}
 
 	key, err := datastore.NewQuery(KIND_RATING).Filter("Name =", rate.Name).KeysOnly().Run(c).Next(nil)
