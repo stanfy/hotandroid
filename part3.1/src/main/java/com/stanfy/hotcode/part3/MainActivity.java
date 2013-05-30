@@ -14,10 +14,6 @@ public class MainActivity extends FragmentActivity {
   /** Service action. */
   public static final String SERVICE_ACTION = "edu.hotcode.write";
 
-  static {
-    FragmentManager.enableDebugLogging(true);
-  }
-
   @Override
   protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -30,10 +26,12 @@ public class MainActivity extends FragmentActivity {
   }
 
   public String getPersonNameColumnName() {
-    return Person.Contract.COLUMN_NAME;
+    //FIXME
+    return null;
   }
   public String getPersonScoreColumnName() {
-    return Person.Contract.COLUMN_SCORE;
+    //FIXME
+    return null;
   }
 
   public void showDetails(final Person person) {
