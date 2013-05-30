@@ -16,8 +16,9 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import com.stanfy.hotcode.part3.AbsHotActivity;
+import com.stanfy.hotcode.part3.MainActivity;
 
-public class HotTest extends ActivityInstrumentationTestCase2<AbsHotActivity> {
+public class HotTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
   /** Logging TAG. */
   private static final String TAG = "HotTest";
@@ -34,9 +35,8 @@ public class HotTest extends ActivityInstrumentationTestCase2<AbsHotActivity> {
     System.setProperty("http.keepAlive", "false");
   }
 
-  @SuppressWarnings("unchecked")
-  public HotTest() throws ClassNotFoundException {
-    super((Class<AbsHotActivity>) Class.forName(AbsHotActivity.TEST_CLASS_NAME));
+  public HotTest() {
+    super(MainActivity.class);
   }
 
   public void testNaive() throws Exception {

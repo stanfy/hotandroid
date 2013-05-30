@@ -1,4 +1,4 @@
-package com.stanfy.hotcode.part3;
+package com.stanfy.hotcode.part3.service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

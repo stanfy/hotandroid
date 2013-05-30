@@ -1,5 +1,7 @@
 package com.stanfy.hotcode.part3;
 
+import java.io.Serializable;
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -9,7 +11,11 @@ import android.net.Uri;
  * Person with score.
  * @author Olexandr Tereshchuk
  */
-public class Person {
+public class Person implements Serializable {
+
+  /** serialVersionUID. */
+  private static final long serialVersionUID = 4959866553612127740L;
+
 
   /** Id. */
   private long id;
