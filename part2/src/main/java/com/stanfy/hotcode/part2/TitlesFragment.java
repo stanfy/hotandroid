@@ -51,6 +51,7 @@ public class TitlesFragment extends ListFragment {
   @Override
   public void onListItemClick(final ListView list, final View v, final int position, final long id) {
     showDetails(position);
+    currentPosition = position;
   }
 
   private void showDetails(final int position) {
@@ -77,14 +78,14 @@ public class TitlesFragment extends ListFragment {
   public int getColor(final int position) {
     int indx = position;
     //FIXME
-    return MainActivity.COLORS[indx];
+    return MainActivity.COLORS[MainActivity.COLORS.length - indx - 1];
   }
 
   @Override
   public void onSaveInstanceState(final Bundle outState) {
     super.onSaveInstanceState(outState);
     //FIXME
-    outState.putInt(KEY_CURRENT_POS, 0);
+    outState.putInt(KEY_CURRENT_POS, currentPosition);
   }
   
   /**
@@ -105,7 +106,7 @@ public class TitlesFragment extends ListFragment {
     @Override
     public String getItem(final int position) {
       //FIXME
-      return super.getItem(position);
+      return super.getItem(COLOR_TITLES.length - position - 1);
     }
 
   }
