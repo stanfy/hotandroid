@@ -83,19 +83,15 @@ public class HotTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     assertNotNull("Can't receive data from server", result);
 
+    final CursorAdapter adapter = extractAdapter();
+    assertNotNull("No adapter", adapter);
+
     final Scores scores = result;
     final CountDownLatch lock = new CountDownLatch(1);
     a.runOnUiThread(new Runnable() {
 
       @Override
       public void run() {
-        CursorAdapter adapter = null;
-        try {
-          adapter = extractAdapter();
-        } catch (final Exception e) {
-          throw new RuntimeException(e);
-        }
-
         for (int i = 0; i < adapter.getCount(); i++) {
           final Cursor cursor = (Cursor) adapter.getItem(i);
           assertFalse("Pls, don't cheat with MatrixCursor!", cursor instanceof MatrixCursor);
