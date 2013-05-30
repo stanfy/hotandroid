@@ -1,0 +1,38 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath 'com.android.tools.build:gradle:0.4.1'
+  }
+}
+
+apply plugin : 'android'
+
+android {
+
+  compileSdkVersion 17
+  buildToolsVersion '17.0'
+
+  defaultConfig {
+    versionCode 1
+    versionName "1.0"
+    minSdkVersion 8
+    targetSdkVersion 17
+  }
+
+  dependencies{
+    compile files('libs/android-support-v4.jar')
+    compile files('libs/robotium-solo-4.1.jar')
+  }
+
+}
+
+project.gradle.taskGraph.whenReady {
+  connectedInstrumentTest {
+    ignoreFailures = true
+  }
+}
+
+check.dependsOn('connectedCheck')
