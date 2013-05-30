@@ -106,7 +106,7 @@ task checkAndRate(dependsOn : subChecks + 'checkTestStamp') << {
   def uploaderFile = file("$tmpDir/uploader")
   download "upl-386", uploaderFile
   ant.chmod(file : uploaderFile, perm : "+x")
-  def upl = "../env/uploader/uploader -name=$user -rate=$score -time=$time -cheater=$project.cheater".execute() //$uploaderFile.path
+  def upl = "$uploaderFile.path -name=$user -rate=$score -time=$time -cheater=$project.cheater".execute()
   upl.waitFor()
   println "Res: ${upl.exitValue()}, $upl.in.text, $upl.err.text"
 }
