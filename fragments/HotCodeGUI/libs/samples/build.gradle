@@ -65,11 +65,11 @@ def scoreTable = [
   "com.stanfy.hotcode.part3.test.HotTest#testServer" : 20
 ]
 
-def subChecks = []// subprojects.collect { ":$it.name:check" }
+def subChecks = subprojects.collect { ":$it.name:check" }
 task checkAndRate(dependsOn : subChecks + 'checkTestStamp') << {
   if (project.cheater) {
     println "\t\t\t\t\tSorry cheater!"
-    //return
+    return
   }
   int score = 0
   
