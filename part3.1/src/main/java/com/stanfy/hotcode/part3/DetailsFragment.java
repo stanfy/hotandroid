@@ -1,8 +1,5 @@
 package com.stanfy.hotcode.part3;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -25,16 +22,14 @@ public class DetailsFragment extends Fragment {
   /** Person instance. */
   private Person person;
 
-  /** Date format. */
-  private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM HH:mm:ss", Locale.getDefault());
-
   public MainActivity getOwnerActivity() { return (MainActivity) getActivity(); }
 
   @Override
   public void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
-    person = getArguments() == null ? null : (Person) getArguments().get(ARG_PERSON);
+    //FIXME
+    person = null;
   }
 
   @Override
@@ -53,9 +48,10 @@ public class DetailsFragment extends Fragment {
       if (person.isCheater()) {
         view.findViewById(R.id.cheater).setVisibility(View.VISIBLE);
       } else {
-        name.setText(person.getName());
-        score.setText(String.valueOf(person.getScore()));
-        date.setText(dateFormat.format(person.getDate()));
+        //FIXME
+        // name.setText(...);
+        // score.setText(...);
+        // date.setText(...);
       }
     }
   }

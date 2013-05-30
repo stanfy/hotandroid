@@ -54,7 +54,7 @@ public class HotTest extends ActivityInstrumentationTestCase2<MainActivity> {
   }
 
   public void testNaive() throws Exception {
-    extractAdapter();
+    assertNotNull(extractAdapter());
   }
 
   public void testServer() throws Exception {
@@ -82,7 +82,7 @@ public class HotTest extends ActivityInstrumentationTestCase2<MainActivity> {
       }
     }
 
-    assertNotNull(result);
+    assertNotNull("Can't receive data from server", result);
 
     final Scores scores = result;
     final CountDownLatch lock = new CountDownLatch(1);

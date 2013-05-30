@@ -31,10 +31,8 @@ public class HotContentProvider extends ContentProvider {
 
   @Override
   public String getType(final Uri uri) {
-    if (Person.Contract.TABLE_NAME.equals(uri.getLastPathSegment())) {
-      return ContentResolver.CURSOR_DIR_BASE_TYPE;
-    }
-    return ContentResolver.CURSOR_ITEM_BASE_TYPE;
+    //FIXME
+    return null;
   }
 
   @Override
@@ -43,7 +41,8 @@ public class HotContentProvider extends ContentProvider {
     try {
       return super.applyBatch(operations);
     } finally {
-      getContext().getContentResolver().notifyChange(Person.Contract.URI, null);
+      //FIXME
+      //notfiy about changes
     }
   }
 
