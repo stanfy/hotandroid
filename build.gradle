@@ -89,9 +89,9 @@ task checkAndRate(dependsOn : subChecks + 'checkTestStamp') << {
   println "Time: $time"
 
   // get user
-  def gitRemotes = "git remote -v".execute()
+  def gitRemotes = "git config --get remote.origin.url".execute()
   gitRemotes.waitFor()
-  def user = (gitRemotes.in.text.trim() =~ /origin\s+git.+?:([\w-]+)\/hot/).collect { it[1] }.find { it != "stanfy" }
+  def user = (gitRemotes.in.text.trim() =~ /[\/:]([\w-]+)\/hot/)[0][1]
   if (!user) {
     println "Unknown user!"
     //return
