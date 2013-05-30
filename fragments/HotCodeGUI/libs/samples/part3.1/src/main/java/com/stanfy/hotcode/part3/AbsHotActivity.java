@@ -11,15 +11,6 @@ public abstract class AbsHotActivity extends FragmentActivity {
   /** Service action. */
   public static final String SERVICE_ACTION = "edu.hotcode.write";
 
-  /** Target class name. */
-  public static final String TEST_CLASS_NAME = "com.stanfy.hotcode.part3.MainActivity";
-
-  public AbsHotActivity() {
-    if (!getClass().getName().equals(TEST_CLASS_NAME)) {
-      throw new RuntimeException("Class name must be: " + TEST_CLASS_NAME);
-    }
-  }
-
 
   /** @return adapter instance used in current list view */
   public abstract CursorAdapter getListAdapter();

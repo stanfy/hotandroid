@@ -8,10 +8,10 @@
         android:minSdkVersion="7"
         android:targetSdkVersion="17" />
 
-	<!-- Launch service -->
+    <!-- Core -->
     <uses-permission android:name="com.example.hotcode.SERVICES" />
-
-	<!-- Test -->
+    
+    <!-- Test -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application

@@ -2,14 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.stanfy.hotcode.part3"
     android:versionCode="1"
-    android:versionName="1.0"
-    android:sharedUserId="com.example.hotclient">
+    android:versionName="1.0">
 
     <uses-sdk
         android:minSdkVersion="7"
         android:targetSdkVersion="17" />
 
+    <!-- Core -->
     <uses-permission android:name="com.example.hotcode.SERVICES" />
+    
+    <!-- Test -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
