@@ -72,7 +72,7 @@ task checkAndRate(dependsOn : subChecks + 'checkTestStamp') << {
         boolean success = testcase.children().size() == 0;
         String key = testcase.'@classname' + '#' + testcase.'@name'
         if (scoreTable.containsKey(key)) {
-          return acc + scoreTable[key]
+          return success ? acc + scoreTable[key] : acc
         }
         return success ? acc : -1;
       }
