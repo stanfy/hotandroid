@@ -25,10 +25,6 @@ task makeTestStamps(type : MakeTestStamps) {
 
 }
 
-task addStampsToServer(dependsOn : 'makeTestStamps') << {
-  ant.copy(todir : "../env/server/tools", file : stampsFile)
-}
-
 void download(def what, File where) {
   def out = new BufferedOutputStream(new FileOutputStream(where))
   out << new URL("http://stanfy-engine.appspot.com/tools/$what").openStream()
