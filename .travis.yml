@@ -34,6 +34,7 @@ before_install:
   - gradle --version
 
 before_script:
+  - git config --get remote.origin.url
   - ./wait_for_emulator
   - adb shell input keyevent 82
 
