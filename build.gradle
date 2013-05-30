@@ -39,10 +39,10 @@ task checkTestStamp(dependsOn : 'makeTestStamps') << {
 
 def scoreTable = [
   "com.stanfy.hotcode.part0.test.MainActivityTest#testContentSet" : 10,
-  "com.stanfy.hotcode.part1.test.MainActivityTest#testPreconditions" : 6,
-  "com.stanfy.hotcode.part1.test.MainActivityTest#testBgColorChange" : 8,
-  "com.stanfy.hotcode.part1.test.MainActivityTest#testBgColorRestore" : 8,
-  "com.stanfy.hotcode.part1.test.MainActivityTest#testIntentFilter" : 8,
+  "com.stanfy.hotcode.part1.test.MainActivityTest#testPreconditions" : 0,
+  "com.stanfy.hotcode.part1.test.MainActivityTest#testBgColorChange" : 10,
+  "com.stanfy.hotcode.part1.test.MainActivityTest#testBgColorRestore" : 10,
+  "com.stanfy.hotcode.part1.test.MainActivityTest#testIntentFilter" : 10,
   "com.stanfy.hotcode.part2.test.MainActivityTest#testPreConditions" : 2,
   "com.stanfy.hotcode.part2.test.MainActivityTest#testColorArrayNotModified" : 3,
   "com.stanfy.hotcode.part2.test.MainActivityTest#testColorTiltesArrayNotModified" : 3,
