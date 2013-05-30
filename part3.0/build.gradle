@@ -34,4 +34,4 @@ project.gradle.taskGraph.whenReady {
   }
 }
 
-check.dependsOn('connectedCheck')
+check.dependsOn('installDebug')
