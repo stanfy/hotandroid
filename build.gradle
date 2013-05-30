@@ -89,9 +89,7 @@ task checkAndRate(dependsOn : subChecks + 'checkTestStamp') << {
   println "Time: $time"
 
   // get user
-  def gitRemotes = "git config --get remote.origin.url".execute()
-  gitRemotes.waitFor()
-  def user = (gitRemotes.in.text.trim() =~ /[\/:]([\w-]+)\/hot/)[0][1]
+  def user = "${System.env.TRAVIS_PULL_REQUEST}"
   if (!user) {
     println "Unknown user!"
     //return
