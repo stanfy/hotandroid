@@ -41,6 +41,7 @@ public class Person implements Serializable {
   /** @return is cheater */
   public boolean isCheater() { return cheater; }
 
+
   /**
    * Database contract.
    * @author Olexandr Tereshchuk
