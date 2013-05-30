@@ -1,4 +1,4 @@
-package com.stanfy.hotcodeapp.test;
+package com.stanfy.hotcode.part1.test;
 
 import android.app.Activity;
 import android.app.Instrumentation;
@@ -13,7 +13,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 
-import com.stanfy.hotcodeapp.MainActivity;
+import com.stanfy.hotcode.part1.MainActivity;
+import com.stanfy.hotcode.part1.R;
 
 
 public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
@@ -37,9 +38,9 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     setActivityInitialTouchMode(false);
     activity = getActivity();
 
-    redBtn = (Button) activity.findViewById(com.stanfy.hotcodeapp.R.id.red_button);
-    greenBtn = (Button) activity.findViewById(com.stanfy.hotcodeapp.R.id.green_button);
-    blueBtn = (Button) activity.findViewById(com.stanfy.hotcodeapp.R.id.blue_button);
+    redBtn = (Button) activity.findViewById(R.id.red_button);
+    greenBtn = (Button) activity.findViewById(R.id.green_button);
+    blueBtn = (Button) activity.findViewById(R.id.blue_button);
   }
 
   public void testPreconditions() {
@@ -60,7 +61,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
   }
 
   private int getMainPanelColor(final Activity activity) {
-    final View mainPanel = activity.findViewById(com.stanfy.hotcodeapp.R.id.main_panel);
+    final View mainPanel = activity.findViewById(R.id.main_panel);
     return ((ColorDrawable) mainPanel.getBackground()).getColor();
   }
 
@@ -81,7 +82,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     pressButton(greenBtn);
 
     final Bundle outState = new Bundle();
-    runTestOnUiThread(new Runnable() {
+    runTestOnUiThread(new Thread() {
       @Override
       public void run() {
         instrumentation.callActivityOnSaveInstanceState(activity, outState);
@@ -92,7 +93,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     setActivity(null);
     activity = getActivity();
 
-    runTestOnUiThread(new Runnable() {
+    runTestOnUiThread(new Thread() {
       @Override
       public void run() {
         instrumentation.callActivityOnCreate(activity, outState);

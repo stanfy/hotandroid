@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_panel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FF0000" >
+
+    <Button
+        android:id="@+id/red_button"
+        style="@style/ButtonStyle"
+        android:text="Red" />
+
+    <Button
+        android:id="@+id/green_button"
+        style="@style/ButtonStyle"
+        android:text="Green" />
+
+    <Button
+        android:id="@+id/blue_button"
+        style="@style/ButtonStyle"
+        android:text="Blue" />
+
+    <Button
+        android:id="@+id/start_service_button"
+        style="@style/ButtonStyle"
+        android:text="Start service" />
+    
+</LinearLayout>

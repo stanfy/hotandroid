@@ -1,0 +1,39 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    classpath 'com.android.tools.build:gradle:0.4.1'
+  }
+}
+
+apply plugin : 'android'
+
+android {
+
+  compileSdkVersion 17
+  buildToolsVersion '17.0'
+
+  defaultConfig {
+    versionCode 1
+    versionName "1.0"
+    minSdkVersion 8
+    targetSdkVersion 17
+    testInstrumentationRunner "android.test.InstrumentationTestRunner"
+  }
+
+  dependencies{
+    compile files('libs/android-support-v4.jar')
+	instrumentTestCompile files('libs/gson-2.2.4.jar')
+  }
+
+}
+
+project.gradle.taskGraph.whenReady {
+  connectedInstrumentTest {
+    ignoreFailures = true
+  }
+}
+
+check.dependsOn('connectedCheck')

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Common -->
+    <string name="app_name">hotcode-service</string>
+    
+    <!-- Permission -->
+    <string name="permission_label">Launch hot service</string>
+    <string name="permission_description">Gives access to hot service that will fetch scores table from server</string>
+
+</resources>
