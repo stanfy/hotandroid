@@ -5,5 +5,8 @@
     
     <string name="person_name">Name:</string>
     <string name="person_score">Score:</string>
+    <string name="person_date">Date:</string>
+    
+    <string name="cheater">Cheater!</string>
 
 </resources>

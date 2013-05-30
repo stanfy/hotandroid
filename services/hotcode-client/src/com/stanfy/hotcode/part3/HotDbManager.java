@@ -10,13 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class HotDbManager extends SQLiteOpenHelper {
 
-  /** Logging TAG. */
-  private static final String TAG = "HotDbManager";
-  /** Debug flag. */
-  private static final boolean DEBUG = true;
-
   /** Version. */
-  private static final int DB_VERSION = 1;
+  private static final int DB_VERSION = 3;
   /** Name. */
   private static final String DB_NAME = "hot.db";
 

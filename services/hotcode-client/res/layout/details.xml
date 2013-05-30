@@ -27,6 +27,17 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/person_name_title"
         />
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/person_date_title"
+        android:text="@string/person_date"
+        android:textStyle="bold"
+        android:gravity="left|center_vertical"
+        android:paddingRight="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/person_score_title"
+        />
     
     <TextView
         android:layout_width="wrap_content"
@@ -48,5 +59,28 @@
         android:layout_alignTop="@id/person_score_title"
         android:layout_toRightOf="@id/person_score_title"
         />
+   <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/person_date"
+        android:gravity="left|center_vertical"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:layout_alignTop="@id/person_date_title"
+        android:layout_toRightOf="@id/person_date_title"
+        />
+   
+   <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:id="@+id/cheater"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:text="@string/cheater"
+        android:textColor="@android:color/white"
+        android:background="#FF0000"
+        android:visibility="gone"
+       />
 
 </RelativeLayout>
