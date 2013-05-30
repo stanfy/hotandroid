@@ -1,5 +1,8 @@
 package com.stanfy.hotcode.part3;
 
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 /**
+ * Shows person details.
  * @author Olexandr Tereshchuk - <a href="http://stanfy.com.ua">Stanfy LLC</a>
  */
 public class DetailsFragment extends Fragment {
@@ -16,10 +20,13 @@ public class DetailsFragment extends Fragment {
   public static final String ARG_PERSON = "person";
 
   /** Values. */
-  private TextView name, score;
+  private TextView name, score, date;
 
   /** Person instance. */
   private Person person;
+
+  /** Date format. */
+  private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM HH:mm:ss", Locale.getDefault());
 
   public MainActivity getOwnerActivity() { return (MainActivity) getActivity(); }
 
@@ -40,10 +47,16 @@ public class DetailsFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     name = (TextView) view.findViewById(R.id.person_name);
     score = (TextView) view.findViewById(R.id.person_score);
+    date = (TextView) view.findViewById(R.id.person_date);
 
     if (person != null) {
-      name.setText(person.getName());
-      score.setText(String.valueOf(person.getScore()));
+      if (person.isCheater()) {
+        view.findViewById(R.id.cheater).setVisibility(View.VISIBLE);
+      } else {
+        name.setText(person.getName());
+        score.setText(String.valueOf(person.getScore()));
+        date.setText(dateFormat.format(person.getDate()));
+      }
     }
   }
 

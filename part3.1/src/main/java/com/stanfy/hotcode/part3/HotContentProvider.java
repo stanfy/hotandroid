@@ -9,7 +9,6 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.OperationApplicationException;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 /**
@@ -20,11 +19,6 @@ public class HotContentProvider extends ContentProvider {
 
   /** Authority. */
   public static final String AUTHORITY = "edu.hotcode";
-
-  /** Logging tag. */
-  private static final String TAG = "HotContentProvider";
-  /** Debug flag. */
-  private static final boolean DEBUG = false;
 
   /** Database manager. */
   private HotDbManager dbManager;
@@ -46,14 +40,9 @@ public class HotContentProvider extends ContentProvider {
   @Override
   public ContentProviderResult[] applyBatch(final ArrayList<ContentProviderOperation> operations)
       throws OperationApplicationException {
-    final SQLiteDatabase db = dbManager.getWritableDatabase();
-    db.beginTransaction();
     try {
-      final ContentProviderResult[] result = super.applyBatch(operations);
-      db.setTransactionSuccessful();
-      return result;
+      return super.applyBatch(operations);
     } finally {
-      db.endTransaction();
       getContext().getContentResolver().notifyChange(Person.Contract.URI, null);
     }
   }

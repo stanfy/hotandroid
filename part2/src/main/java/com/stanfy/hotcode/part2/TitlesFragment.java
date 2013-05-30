@@ -3,6 +3,7 @@ package com.stanfy.hotcode.part2;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.view.View;
@@ -12,7 +13,7 @@ import android.widget.ListView;
 
 /**
  * Fragment with colors list.
- * @author Olexandr Kusakov (Stanfy - http://stanfy.com)
+ * @author Olexandr Kusakov
  */
 public class TitlesFragment extends ListFragment {
 
@@ -60,10 +61,10 @@ public class TitlesFragment extends ListFragment {
       DetailsFragment details = (DetailsFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.details);
       if (details == null || details.getCurrentColor() != getColor(currentPosition)) {
         details = DetailsFragment.newInstance(getColor(position));
-        getActivity().getSupportFragmentManager().beginTransaction()
-            .replace(R.id.details, details)
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .commit();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.details, details);
+        fragmentTransaction.commit();
       }
     } else {
       getListView().clearChoices();
@@ -74,22 +75,21 @@ public class TitlesFragment extends ListFragment {
   }
   
   public int getColor(final int position) {
-//    final int indx = Math.abs(position - (MainActivity.COLORS.length - 1));
-    //TODO 
     int indx = position;
+    //FIXME
     return MainActivity.COLORS[indx];
-    
   }
 
   @Override
   public void onSaveInstanceState(final Bundle outState) {
     super.onSaveInstanceState(outState);
-    outState.putInt(KEY_CURRENT_POS, currentPosition);
+    //FIXME
+    outState.putInt(KEY_CURRENT_POS, 0);
   }
   
   /**
    * Color titles adapter.
-   * @author Olexandr Kusakov (Stanfy - http://stanfy.com)
+   * @author Olexandr Kusakov
    */
   public static class ColorAdapter extends ArrayAdapter<String> {
     
@@ -104,9 +104,7 @@ public class TitlesFragment extends ListFragment {
     
     @Override
     public String getItem(final int position) {
-//      final int indx = Math.abs(position - (COLOR_TITLES.length - 1));
-//      return super.getItem(indx);
-      //TODO 
+      //FIXME
       return super.getItem(position);
     }
 

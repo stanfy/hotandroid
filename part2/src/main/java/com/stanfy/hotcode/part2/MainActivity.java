@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentActivity;
 
 /**
  * Main activity.
- * @author Olexandr Kusakov (Stanfy - http://stanfy.com)
+ * @author Olexandr Kusakov
  */
 public class MainActivity extends FragmentActivity {
   

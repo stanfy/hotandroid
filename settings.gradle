@@ -1,6 +1,5 @@
 include 'part0'
 include 'part1'
 include 'part2'
-include 'part2-demo'
 include 'part3.0'
 include 'part3.1'

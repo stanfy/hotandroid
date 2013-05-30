@@ -75,6 +75,8 @@ public class ListFragment extends Fragment implements LoaderCallbacks<Cursor>, O
             new int[]{View.NO_ID, R.id.person_name, R.id.person_score},
             0)
         );
+    getView().findViewById(R.id.progress).setVisibility(View.GONE);
+    list.setVisibility(View.VISIBLE);
   }
 
   @Override

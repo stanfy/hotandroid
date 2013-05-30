@@ -5,6 +5,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import android.app.IntentService;
 import android.content.ContentProviderOperation;
@@ -13,7 +15,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.util.Log;
 
-import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -59,15 +61,19 @@ public class HotService extends IntentService {
         }
         final String jsonStr = json.toString();
         if (DEBUG) { Log.d(TAG, "JSON: " + jsonStr); }
-        final Scores result = new Gson().fromJson(jsonStr, Scores.class);
+        final Scores result = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").create().fromJson(jsonStr, Scores.class);
         if (result != null) {
           final ContentResolver cr = getContentResolver();
           final ArrayList<ContentProviderOperation> batch = new ArrayList<ContentProviderOperation>(result.size() + 1);
           batch.add(ContentProviderOperation.newDelete(intent.getData()).build());
+
+          final long dateOffset = 3 * 60 * 60 * 1000;
           for (final Person person : result) {
             final ContentValues cv = new ContentValues();
             cv.put("name", person.name);
             cv.put("score", person.rate);
+            cv.put("date", TimeUnit.MILLISECONDS.toSeconds((person.date == null ? new Date() : person.date).getTime()));
+            cv.put("cheater", person.cheater);
             batch.add(ContentProviderOperation.newInsert(intent.getData()).withValues(cv).build());
           }
           cr.applyBatch(intent.getData().getAuthority(), batch);
@@ -94,6 +100,12 @@ public class HotService extends IntentService {
     /** Rate. */
     @SerializedName("Rate")
     private int rate;
+    /** Commit date. */
+    @SerializedName("Date")
+    private Date date;
+    /** Is cheater. */
+    @SerializedName("Cheater")
+    private boolean cheater;
   }
 
   /**

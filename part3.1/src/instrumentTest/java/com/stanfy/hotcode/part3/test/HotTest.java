@@ -9,13 +9,13 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.support.v4.widget.CursorAdapter;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
-import com.stanfy.hotcode.part3.AbsHotActivity;
 import com.stanfy.hotcode.part3.MainActivity;
 
 public class HotTest extends ActivityInstrumentationTestCase2<MainActivity> {
@@ -44,7 +44,7 @@ public class HotTest extends ActivityInstrumentationTestCase2<MainActivity> {
   }
 
   public void testServer() throws Exception {
-    final AbsHotActivity a = getActivity();
+    final MainActivity a = getActivity();
     final CursorAdapter adapter = extractAdapter();
     HttpURLConnection con = null;
     Scores result = null;
@@ -79,6 +79,7 @@ public class HotTest extends ActivityInstrumentationTestCase2<MainActivity> {
       public void run() {
         for (int i = 0; i < adapter.getCount(); i++) {
           final Cursor cursor = (Cursor) adapter.getItem(i);
+          assertFalse(cursor instanceof MatrixCursor);
           final int col = cursor.getColumnIndexOrThrow(a.getPersonNameColumnName());
           boolean found = false;
           for (final Person p : scores) {
@@ -96,7 +97,7 @@ public class HotTest extends ActivityInstrumentationTestCase2<MainActivity> {
   }
 
   private CursorAdapter extractAdapter() throws Exception {
-    final AbsHotActivity a = getActivity();
+    final MainActivity a = getActivity();
     // wait 15 seconds to retrieve data
     for (int i = 0; i < WAITING_TIME; i++) {
       Thread.sleep(TimeUnit.SECONDS.toMillis(1));

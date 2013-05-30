@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 /**
  * Fragment with color.
- * @author Olexandr Kusakov (Stanfy - http://stanfy.com)
+ * @author Olexandr Kusakov
  */
 public class DetailsFragment extends Fragment {
 
@@ -31,8 +31,7 @@ public class DetailsFragment extends Fragment {
   @Override
   public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
     View view = new View(getActivity());
-    Bundle args = getArguments();
-    final int color = args == null ? 0 : args.getInt(ARG_COLOR);
+    int color = getCurrentColor();
     view.setBackgroundColor(color);
     return view;
   }
