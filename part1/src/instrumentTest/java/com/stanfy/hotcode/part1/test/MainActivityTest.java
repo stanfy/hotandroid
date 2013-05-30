@@ -82,7 +82,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     pressButton(greenBtn);
 
     final Bundle outState = new Bundle();
-    runTestOnUiThread(new Thread() {
+    runTestOnUiThread(new Runnable() {
       @Override
       public void run() {
         instrumentation.callActivityOnSaveInstanceState(activity, outState);
@@ -93,7 +93,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     setActivity(null);
     activity = getActivity();
 
-    runTestOnUiThread(new Thread() {
+    runTestOnUiThread(new Runnable() {
       @Override
       public void run() {
         instrumentation.callActivityOnCreate(activity, outState);
