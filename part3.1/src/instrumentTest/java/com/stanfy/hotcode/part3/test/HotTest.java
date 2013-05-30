@@ -49,12 +49,11 @@ public class HotTest extends ActivityInstrumentationTestCase2<MainActivity> {
     .setData(com.stanfy.hotcode.part3.Person.Contract.URI)
     .setAction(MainActivity.SERVICE_ACTION);
     final List<ResolveInfo> candidates = a.getPackageManager().queryIntentServices(intent, PackageManager.GET_INTENT_FILTERS);
-    assertNotNull(candidates);
-    assertFalse(candidates.isEmpty());
+    assertFalse("Service is not installed!", candidates == null || candidates.isEmpty());
   }
 
   public void testNaive() throws Exception {
-    assertNotNull(extractAdapter());
+    assertNotNull("No adapter", extractAdapter());
   }
 
   public void testServer() throws Exception {
@@ -99,7 +98,7 @@ public class HotTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
         for (int i = 0; i < adapter.getCount(); i++) {
           final Cursor cursor = (Cursor) adapter.getItem(i);
-          assertFalse(cursor instanceof MatrixCursor);
+          assertFalse("Pls, don't cheat with MatrixCursor!", cursor instanceof MatrixCursor);
           if (cursor.isClosed()) { break; }
           final int col = cursor.getColumnIndexOrThrow(a.getPersonNameColumnName());
           final String val = cursor.getString(col);
@@ -110,7 +109,7 @@ public class HotTest extends ActivityInstrumentationTestCase2<MainActivity> {
               break;
             }
           }
-          assertTrue(found);
+          assertTrue("Person [" + val + "] was not found on server", found);
         }
 
 
@@ -130,7 +129,7 @@ public class HotTest extends ActivityInstrumentationTestCase2<MainActivity> {
         return adapter;
       }
     }
-    throw new AssertionError("Timeout");
+    throw new AssertionError("Timeout - max waiting time is " + WAITING_TIME + " seconds");
   }
 
 
