@@ -48,14 +48,28 @@ task checkTestStamp(dependsOn : 'makeTestStamps') << {
 }
 
 def scoreTable = [
-  "com.stanfy.hotcodeapp.test.MainActivityTest#testIntentFilter" : 2
+  "com.stanfy.hotcode.part0.test.MainActivityTest#testContentSet" : 10,
+  "com.stanfy.hotcode.part1.test.MainActivityTest#testPreconditions" : 6,
+  "com.stanfy.hotcode.part1.test.MainActivityTest#testBgColorChange" : 8,
+  "com.stanfy.hotcode.part1.test.MainActivityTest#testBgColorRestore" : 8,
+  "com.stanfy.hotcode.part1.test.MainActivityTest#testIntentFilter" : 8,
+  "com.stanfy.hotcode.part2.test.MainActivityTest#testPreConditions" : 2,
+  "com.stanfy.hotcode.part2.test.MainActivityTest#testColorArrayNotModified" : 3,
+  "com.stanfy.hotcode.part2.test.MainActivityTest#testColorTiltesArrayNotModified" : 3,
+  "com.stanfy.hotcode.part2.test.MainActivityTest#testFragmentsCreationInPortraitMode" : 3,
+  "com.stanfy.hotcode.part2.test.MainActivityTest#testFragmentsCreationInLandscapeMode" : 3,
+  "com.stanfy.hotcode.part2.test.MainActivityTest#testColorChangedCorrectlyInLandscapeMode" : 5,
+  "com.stanfy.hotcode.part2.test.MainActivityTest#testColorChangedCorrectlyInPortraitMode" : 5,
+  "com.stanfy.hotcode.part2.test.MainActivityTest#testColorRestore" : 6,
+  "com.stanfy.hotcode.part3.test.HotTest#testNaive" : 10,
+  "com.stanfy.hotcode.part3.test.HotTest#testServer" : 20
 ]
 
-def subChecks = subprojects.collect { ":$it.name:check" }
+def subChecks = []// subprojects.collect { ":$it.name:check" }
 task checkAndRate(dependsOn : subChecks + 'checkTestStamp') << {
   if (project.cheater) {
     println "\t\t\t\t\tSorry cheater!"
-    return
+    //return
   }
   int score = 0
   
@@ -82,15 +96,23 @@ task checkAndRate(dependsOn : subChecks + 'checkTestStamp') << {
 
   println "Score: $score"
 
-  def git = "git --no-pager log -1 --format=%at".execute()
-  git.waitFor()
-  def time = git.in.text.trim()
-  def user = "$System.env.TRAVIS_REPO_SLUG".split("/")[0]
+  // get time
+  def gitLog = "git --no-pager log -1 --format=%at".execute()
+  gitLog.waitFor()
+  def time = gitLog.in.text.trim()
 
+  println "Time: $time"
+
+  // get user
+  def gitRemotes = "git remote -v".execute()
+  gitRemotes.waitFor()
+  def user = (gitRemotes.in.text.trim() =~ /origin\s+git.+?:([\w-]+)\/hot/).collect { it[1] }.find { it != "stanfy" }
   if (!user) {
     println "Unknown user!"
     return
   }
+
+  println "User: $user"
 
   def uploaderFile = file("$tmpDir/uploader")
   download "upl-386", uploaderFile
