@@ -116,10 +116,8 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
     }
 
     private int getExpectedColor(final int pos) {
-        return TEST_COLORS[pos];
-//    int indx = Math.abs(pos - (TEST_COLORS.length - 1));
-//    return TEST_COLORS[indx];
-
+      int indx = Math.abs(pos - (TEST_COLORS.length - 1));
+      return TEST_COLORS[indx];
     }
 
     private int getDetailsFragmentColor() {

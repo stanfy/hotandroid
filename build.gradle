@@ -51,8 +51,10 @@ def scoreTable = [
   "com.stanfy.hotcode.part2.test.MainActivityTest#testColorChangedCorrectlyInLandscapeMode" : 5,
   "com.stanfy.hotcode.part2.test.MainActivityTest#testColorChangedCorrectlyInPortraitMode" : 5,
   "com.stanfy.hotcode.part2.test.MainActivityTest#testColorRestore" : 6,
+  "com.stanfy.hotcode.part3.service.test.HotServiceTest#testDumb" : 1,
+  "com.stanfy.hotcode.part3.test.HotTest#testIntent" : 4,
   "com.stanfy.hotcode.part3.test.HotTest#testNaive" : 10,
-  "com.stanfy.hotcode.part3.test.HotTest#testServer" : 20
+  "com.stanfy.hotcode.part3.test.HotTest#testServer" : 15
 ]
 
 def subChecks = subprojects.collect { ":$it.name:check" }

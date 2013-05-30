@@ -5,9 +5,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.support.v4.widget.CursorAdapter;
@@ -39,13 +43,22 @@ public class HotTest extends ActivityInstrumentationTestCase2<MainActivity> {
     super(MainActivity.class);
   }
 
+  public void testIntent() throws Exception {
+    final MainActivity a = getActivity();
+    final Intent intent = new Intent()
+    .setData(com.stanfy.hotcode.part3.Person.Contract.URI)
+    .setAction(MainActivity.SERVICE_ACTION);
+    final List<ResolveInfo> candidates = a.getPackageManager().queryIntentServices(intent, PackageManager.GET_INTENT_FILTERS);
+    assertNotNull(candidates);
+    assertFalse(candidates.isEmpty());
+  }
+
   public void testNaive() throws Exception {
     extractAdapter();
   }
 
   public void testServer() throws Exception {
     final MainActivity a = getActivity();
-    final CursorAdapter adapter = extractAdapter();
     HttpURLConnection con = null;
     Scores result = null;
     try {
@@ -77,19 +90,30 @@ public class HotTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
       @Override
       public void run() {
+        CursorAdapter adapter = null;
+        try {
+          adapter = extractAdapter();
+        } catch (final Exception e) {
+          throw new RuntimeException(e);
+        }
+
         for (int i = 0; i < adapter.getCount(); i++) {
           final Cursor cursor = (Cursor) adapter.getItem(i);
           assertFalse(cursor instanceof MatrixCursor);
+          if (cursor.isClosed()) { break; }
           final int col = cursor.getColumnIndexOrThrow(a.getPersonNameColumnName());
+          final String val = cursor.getString(col);
           boolean found = false;
           for (final Person p : scores) {
-            if (p.name.equals(cursor.getString(col))) {
+            if (p.name.equals(val)) {
               found = true;
               break;
             }
           }
           assertTrue(found);
         }
+
+
         lock.countDown();
       }
     });
