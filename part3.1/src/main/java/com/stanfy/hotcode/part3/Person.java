@@ -61,8 +61,17 @@ public class Person implements Serializable {
     public static final String CREATE_SQL;
 
     static {
-      //FIXME
-      CREATE_SQL = "";
+      CREATE_SQL = new StringBuilder()
+      .append("CREATE TABLE ")
+      .append(TABLE_NAME)
+      .append("(")
+      .append(COLUMN_ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT,")
+      .append(COLUMN_NAME).append(" TEXT,")
+      .append(COLUMN_SCORE).append(" INTEGER, ")
+      .append(COLUMN_DATE).append(" INTEGER, ")
+      .append(COLUMN_CHEATER).append(" INTEGER")
+      .append(")")
+      .toString();
     }
 
     public static ContentValues toContentValues(final Person p) {
