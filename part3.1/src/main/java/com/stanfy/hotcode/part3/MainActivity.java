@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.CursorAdapter;
 
 /**
@@ -26,12 +27,10 @@ public class MainActivity extends FragmentActivity {
   }
 
   public String getPersonNameColumnName() {
-    //FIXME
-    return null;
+    return Person.Contract.COLUMN_NAME;
   }
   public String getPersonScoreColumnName() {
-    //FIXME
-    return null;
+    return Person.Contract.COLUMN_SCORE;
   }
 
   public void showDetails(final Person person) {
@@ -44,7 +43,11 @@ public class MainActivity extends FragmentActivity {
       fm.popBackStack();
       fm.beginTransaction().replace(R.id.fragment_container, f).addToBackStack(null).commit();
     } else {
-      fm.beginTransaction().hide(fm.findFragmentById(R.id.list_fragment)).replace(R.id.fragment_container, f).addToBackStack(null).commit();
+      fm.beginTransaction().hide(fm.findFragmentById(R.id.list_fragment))
+
+              .replace(R.id.fragment_container, f)
+              .addToBackStack(null).setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+              .commit();
     }
   }
 

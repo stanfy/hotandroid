@@ -28,8 +28,7 @@ public class DetailsFragment extends Fragment {
   public void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
-    //FIXME
-    person = null;
+    person = (Person)getArguments().getSerializable(ARG_PERSON);
   }
 
   @Override
@@ -48,10 +47,9 @@ public class DetailsFragment extends Fragment {
       if (person.isCheater()) {
         view.findViewById(R.id.cheater).setVisibility(View.VISIBLE);
       } else {
-        //FIXME
-        // name.setText(...);
-        // score.setText(...);
-        // date.setText(...);
+        name.setText(person.getName());
+        score.setText(String.valueOf(person.getScore()));
+        date.setText(person.getDate().toString());
       }
     }
   }
