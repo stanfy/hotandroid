@@ -7,6 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+
+class ColorCode {
+    public static final int RED = 0;
+    public static final int BLUE = 1;
+    public static final int GREEN = 2;
+}
+
 /**
  * Main screen with three "color" button and "start service" button.
  */
@@ -31,26 +38,16 @@ public class MainActivity extends Activity {
 
     if (savedInstanceState != null && savedInstanceState.containsKey(STATE_BG_COLOR)) {
       currentColor = savedInstanceState.getInt(STATE_BG_COLOR);
-
-      // FIXME: there you should restore background color
+      switch(currentColor) {
+          case ColorCode.RED: mainPanel.setBackgroundColor(Color.RED); break;
+          case ColorCode.BLUE: mainPanel.setBackgroundColor(Color.BLUE); break;
+          case ColorCode.GREEN: mainPanel.setBackgroundColor(Color.GREEN); break;
+      }
     }
 
-    findViewById(R.id.red_button).setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(final View v) {
-        mainPanel.setBackgroundColor(Color.BLACK);
-        currentColor = 0;
-      }
-    });
-
-    findViewById(R.id.green_button).setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(final View v) {
-        // FIXME: oops, something is missed here
-      }
-    });
-
-    // FIXME: don't forget about blue button...
+    setColorButtonListener(R.id.red_button, Color.RED, ColorCode.RED);
+    setColorButtonListener(R.id.green_button, Color.GREEN, ColorCode.GREEN);
+    setColorButtonListener(R.id.blue_button, Color.BLUE, ColorCode.BLUE);
 
     findViewById(R.id.start_service_button).setOnClickListener(new OnClickListener() {
       @Override
@@ -71,4 +68,15 @@ public class MainActivity extends Activity {
     outState.putInt(STATE_BG_COLOR, currentColor);
   }
 
+
+  private void setColorButtonListener(int id, final int color, final int color_code){
+      final View mainPanel = findViewById(R.id.main_panel);
+      findViewById(id).setOnClickListener(new OnClickListener() {
+          @Override
+          public void onClick(final View v) {
+              mainPanel.setBackgroundColor(color);
+              currentColor = color_code;
+          }
+      });
+  }
 }
