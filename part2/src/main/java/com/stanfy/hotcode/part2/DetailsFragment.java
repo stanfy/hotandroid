@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SimpleCursorAdapter;
 
 /**
  * Fragment with color.
@@ -20,6 +21,9 @@ public class DetailsFragment extends Fragment {
     Bundle args = new Bundle();
     args.putInt(ARG_COLOR, color);
     fragment.setArguments(args);
+
+
+
     return fragment;
   }
 

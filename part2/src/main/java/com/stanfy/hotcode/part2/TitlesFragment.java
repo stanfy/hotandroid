@@ -22,6 +22,7 @@ public class TitlesFragment extends ListFragment {
 
   /** Key to save current position. */
   private static final String KEY_CURRENT_POS = "current_pos";
+
   /** Current position. */
   private int currentPosition;
   /** State with two fragments. */
@@ -75,16 +76,13 @@ public class TitlesFragment extends ListFragment {
   }
   
   public int getColor(final int position) {
-    int indx = position;
-    //FIXME
-    return MainActivity.COLORS[indx];
+    return MainActivity.COLORS[MainActivity.COLORS.length-position-1];
   }
 
   @Override
   public void onSaveInstanceState(final Bundle outState) {
     super.onSaveInstanceState(outState);
-    //FIXME
-    outState.putInt(KEY_CURRENT_POS, 0);
+    outState.putInt(KEY_CURRENT_POS, currentPosition);
   }
   
   /**
@@ -104,8 +102,7 @@ public class TitlesFragment extends ListFragment {
     
     @Override
     public String getItem(final int position) {
-      //FIXME
-      return super.getItem(position);
+      return super.getItem(MainActivity.COLORS.length-position-1);
     }
 
   }

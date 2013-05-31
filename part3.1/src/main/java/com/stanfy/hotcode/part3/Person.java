@@ -17,8 +17,6 @@ public class Person implements Serializable {
 
   /** serialVersionUID. */
   private static final long serialVersionUID = 4959866553612127740L;
-
-
   /** Id. */
   private long id;
   /** Name. */
@@ -61,8 +59,15 @@ public class Person implements Serializable {
     public static final String CREATE_SQL;
 
     static {
-      //FIXME
-      CREATE_SQL = "";
+      CREATE_SQL =
+        "create table " + Contract.TABLE_NAME + "(" +
+        Contract.COLUMN_ID + " integer primary key autoincrement," +
+        Contract.COLUMN_NAME + " text," +
+        Contract.COLUMN_SCORE + " integer," +
+        Contract.COLUMN_DATE + " integer," +
+        Contract.COLUMN_CHEATER + " integer" +
+        ")"
+      ;
     }
 
     public static ContentValues toContentValues(final Person p) {

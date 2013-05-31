@@ -39,8 +39,10 @@ public class ListFragment extends Fragment implements LoaderCallbacks<Cursor>, O
   @Override
   public void onAttach(final Activity activity) {
     super.onAttach(activity);
-    //FIXME
-    // activity.startService(...);
+      Intent intent = new Intent();
+      intent.setAction(MainActivity.SERVICE_ACTION);
+      intent.setData(Person.Contract.URI);
+    activity.startService(intent);
   }
 
   @Override
@@ -59,16 +61,19 @@ public class ListFragment extends Fragment implements LoaderCallbacks<Cursor>, O
 
   @Override
   public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
-    //FIXME
-    return null;
+
+    CursorLoader c = new CursorLoader(this.getOwnerActivity(),
+            Person.Contract.URI, Person.Contract.COLUMNS, null, null, null);
+    return c;
   }
 
   @Override
   public void onLoadFinished(final Loader<Cursor> loader, final Cursor cursor) {
     cursor.setNotificationUri(getActivity().getContentResolver(), Person.Contract.URI);
 
-    //FIXME
-    // list.setAdapter(...);
+    list.setAdapter(new SimpleCursorAdapter(this.getOwnerActivity(), R.layout.list_item, cursor,
+        Person.Contract.COLUMNS, new int[]{ View.NO_ID, R.id.person_name, R.id.person_score}, 0
+    ));
 
     getView().findViewById(R.id.progress).setVisibility(View.GONE);
     list.setVisibility(View.VISIBLE);
