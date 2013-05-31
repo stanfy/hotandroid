@@ -76,7 +76,7 @@ public class TitlesFragment extends ListFragment {
   
   public int getColor(final int position) {
     int indx = position;
-    //FIXME
+    indx = MainActivity.COLORS.length - 1 - indx;
     return MainActivity.COLORS[indx];
   }
 
@@ -84,7 +84,7 @@ public class TitlesFragment extends ListFragment {
   public void onSaveInstanceState(final Bundle outState) {
     super.onSaveInstanceState(outState);
     //FIXME
-    outState.putInt(KEY_CURRENT_POS, 0);
+    outState.putInt(KEY_CURRENT_POS, currentPosition);
   }
   
   /**
@@ -105,7 +105,8 @@ public class TitlesFragment extends ListFragment {
     @Override
     public String getItem(final int position) {
       //FIXME
-      return super.getItem(position);
+      int positiontemp = MainActivity.COLORS.length - 1 - position;
+      return super.getItem(positiontemp);
     }
 
   }
