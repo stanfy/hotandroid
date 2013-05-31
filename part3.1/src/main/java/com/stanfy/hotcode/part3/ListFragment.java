@@ -21,67 +21,74 @@ import android.widget.ListView;
  */
 public class ListFragment extends Fragment implements LoaderCallbacks<Cursor>, OnItemClickListener {
 
-  /** Loader ID. */
-  private static final int LOADER_ID = 1;
+    /**
+     * Loader ID.
+     */
+    private static final int LOADER_ID = 1;
 
-  /** List view. */
-  private ListView list;
+    /**
+     * List view.
+     */
+    private ListView list;
 
 
-  public MainActivity getOwnerActivity() { return (MainActivity) getActivity(); }
+    public MainActivity getOwnerActivity() {
+        return (MainActivity) getActivity();
+    }
 
-  @Override
-  public void onCreate(final Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setRetainInstance(true);
-  }
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
 
-  @Override
-  public void onAttach(final Activity activity) {
-    super.onAttach(activity);
-    //FIXME
-    // activity.startService(...);
-  }
+    @Override
+    public void onAttach(final Activity activity) {
+        super.onAttach(activity);
+        //setting action to perform and in what uri write result
+        activity.startService(new Intent().setAction("edu.hotcode.write").setData(Person.Contract.URI));
+    }
 
-  @Override
-  public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.list_fragment, container, false);
-  }
+    @Override
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.list_fragment, container, false);
+    }
 
-  @Override
-  public void onViewCreated(final View view, final Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-    list = (ListView) view.findViewById(android.R.id.list);
-    list.setOnItemClickListener(this);
+    @Override
+    public void onViewCreated(final View view, final Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        list = (ListView) view.findViewById(android.R.id.list);
+        list.setOnItemClickListener(this);
 
-    getLoaderManager().initLoader(LOADER_ID, null, this);
-  }
+        getLoaderManager().initLoader(LOADER_ID, null, this);
+    }
 
-  @Override
-  public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
-    //FIXME
-    return null;
-  }
+    @Override
+    public Loader<Cursor> onCreateLoader(final int id, final Bundle args) {
+        return new CursorLoader(getOwnerActivity(), Person.Contract.URI, Person.Contract.COLUMNS, null, null, null);
+    }
 
-  @Override
-  public void onLoadFinished(final Loader<Cursor> loader, final Cursor cursor) {
-    cursor.setNotificationUri(getActivity().getContentResolver(), Person.Contract.URI);
+    @Override
+    public void onLoadFinished(final Loader<Cursor> loader, final Cursor cursor) {
+        cursor.setNotificationUri(getActivity().getContentResolver(), Person.Contract.URI);
 
-    //FIXME
-    // list.setAdapter(...);
+        //FIXME
+        list.setAdapter(new SimpleCursorAdapter(getOwnerActivity(), R.layout.list_item, cursor, Person.Contract.COLUMNS, new int[]{View.NO_ID, R.id.person_name, R.id.person_score}, 0));
 
-    getView().findViewById(R.id.progress).setVisibility(View.GONE);
-    list.setVisibility(View.VISIBLE);
-  }
+        getView().findViewById(R.id.progress).setVisibility(View.GONE);
+        list.setVisibility(View.VISIBLE);
+    }
 
-  @Override
-  public void onLoaderReset(final Loader<Cursor> loader) { /* empty */ }
+    @Override
+    public void onLoaderReset(final Loader<Cursor> loader) { /* empty */ }
 
-  @Override
-  public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
-    final Person person = Person.Contract.fromCursor((Cursor) list.getItemAtPosition(position));
-    getOwnerActivity().showDetails(person);
-  }
+    @Override
+    public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
+        final Person person = Person.Contract.fromCursor((Cursor) list.getItemAtPosition(position));
+        getOwnerActivity().showDetails(person);
+    }
 
-  public SimpleCursorAdapter getListAdapter() { return (SimpleCursorAdapter) list.getAdapter(); }
+    public SimpleCursorAdapter getListAdapter() {
+        return (SimpleCursorAdapter) list.getAdapter();
+    }
 }
