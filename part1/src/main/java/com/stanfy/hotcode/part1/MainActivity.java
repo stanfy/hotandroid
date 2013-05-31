@@ -31,26 +31,32 @@ public class MainActivity extends Activity {
 
     if (savedInstanceState != null && savedInstanceState.containsKey(STATE_BG_COLOR)) {
       currentColor = savedInstanceState.getInt(STATE_BG_COLOR);
-
-      // FIXME: there you should restore background color
+      mainPanel.setBackgroundColor(currentColor);
     }
 
     findViewById(R.id.red_button).setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(final View v) {
-        mainPanel.setBackgroundColor(Color.BLACK);
-        currentColor = 0;
+        mainPanel.setBackgroundColor(Color.RED);
+        currentColor = Color.RED;
       }
     });
 
     findViewById(R.id.green_button).setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(final View v) {
-        // FIXME: oops, something is missed here
+          mainPanel.setBackgroundColor(Color.GREEN);
+          currentColor = Color.GREEN;
       }
     });
 
-    // FIXME: don't forget about blue button...
+    findViewById(R.id.blue_button).setOnClickListener(new OnClickListener() {
+          @Override
+          public void onClick(final View v) {
+          mainPanel.setBackgroundColor(Color.BLUE);
+          currentColor = Color.BLUE;
+        }
+      });
 
     findViewById(R.id.start_service_button).setOnClickListener(new OnClickListener() {
       @Override
@@ -67,7 +73,6 @@ public class MainActivity extends Activity {
   @Override
   protected void onSaveInstanceState(final Bundle outState) {
     super.onSaveInstanceState(outState);
-
     outState.putInt(STATE_BG_COLOR, currentColor);
   }
 
