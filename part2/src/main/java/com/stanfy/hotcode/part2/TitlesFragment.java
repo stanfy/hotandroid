@@ -75,16 +75,15 @@ public class TitlesFragment extends ListFragment {
   }
   
   public int getColor(final int position) {
-    int indx = position;
-    //FIXME
+    // In reverse order
+    int indx = MainActivity.COLORS.length - position - 1;
     return MainActivity.COLORS[indx];
   }
 
   @Override
   public void onSaveInstanceState(final Bundle outState) {
     super.onSaveInstanceState(outState);
-    //FIXME
-    outState.putInt(KEY_CURRENT_POS, 0);
+    outState.putInt(KEY_CURRENT_POS, currentPosition);
   }
   
   /**
@@ -92,7 +91,6 @@ public class TitlesFragment extends ListFragment {
    * @author Olexandr Kusakov
    */
   public static class ColorAdapter extends ArrayAdapter<String> {
-    
     public ColorAdapter(final Context context, final int textViewResourceId, final String[] objects) {
       super(context, textViewResourceId, objects);
     }
@@ -104,8 +102,8 @@ public class TitlesFragment extends ListFragment {
     
     @Override
     public String getItem(final int position) {
-      //FIXME
-      return super.getItem(position);
+        // In reverse order
+      return super.getItem(COLOR_TITLES.length - position -1);
     }
 
   }

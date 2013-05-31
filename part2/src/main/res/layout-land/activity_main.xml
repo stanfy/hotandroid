@@ -3,6 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <!-- add landscape layout here -->
 
+    <fragment
+            android:id="@android:id/list"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            class="com.stanfy.hotcode.part2.TitlesFragment"
+            tools:layout="@layout/row_list"
+     />
+
+    <FrameLayout
+            android:id="@+id/details"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2" />
 </LinearLayout>
