@@ -4,6 +4,7 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="17" />
@@ -26,7 +27,7 @@
             android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
-                <action android:name="com.example.hotcode.START_EXuMPLE" />
+                <action android:name="com.example.hotcode.START_EXAMPLE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
