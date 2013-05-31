@@ -85,8 +85,8 @@ public class TitlesFragment extends ListFragment {
     super.onSaveInstanceState(outState);
     outState.putInt(KEY_CURRENT_POS, currentPosition);
   }
-  
-  /**
+
+    /**
    * Color titles adapter.
    * @author Olexandr Kusakov
    */
