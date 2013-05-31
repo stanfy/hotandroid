@@ -14,6 +14,10 @@ public class MainActivity extends Activity {
   public static final String ACTION_START_EXAMPLE = "com.example.hotcode.START_EXAMPLE";
 
   private static final String STATE_BG_COLOR = "bg_color";
+  private static final int STATE_BG_COLOR_BLACK = 0;
+  private static final int STATE_BG_COLOR_GREEN = 1;
+  private static final int STATE_BG_COLOR_BLUE  = 2;
+  private static final int STATE_BG_COLOR_RED   = 3;
 
   private int currentColor;
 
@@ -33,13 +37,30 @@ public class MainActivity extends Activity {
       currentColor = savedInstanceState.getInt(STATE_BG_COLOR);
 
       // FIXME: there you should restore background color
+      switch (currentColor) {
+          case STATE_BG_COLOR_BLACK :
+              currentColor = Color.BLACK;
+              break;
+          case STATE_BG_COLOR_GREEN:
+              currentColor = Color.GREEN;
+              break;
+          case STATE_BG_COLOR_BLUE:
+              currentColor = Color.BLUE;
+              break;
+          case STATE_BG_COLOR_RED:
+              currentColor = Color.RED;
+              break;
+          default:
+              break;
+      }
+      mainPanel.setBackgroundColor(currentColor);
     }
 
     findViewById(R.id.red_button).setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(final View v) {
-        mainPanel.setBackgroundColor(Color.BLACK);
-        currentColor = 0;
+        mainPanel.setBackgroundColor(Color.RED);
+        currentColor = STATE_BG_COLOR_RED;
       }
     });
 
@@ -47,16 +68,26 @@ public class MainActivity extends Activity {
       @Override
       public void onClick(final View v) {
         // FIXME: oops, something is missed here
+        mainPanel.setBackgroundColor(Color.GREEN);
+        currentColor = STATE_BG_COLOR_GREEN;
       }
     });
 
     // FIXME: don't forget about blue button...
 
+    findViewById(R.id.blue_button).setOnClickListener(new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            mainPanel.setBackgroundColor(Color.BLUE);
+            currentColor = STATE_BG_COLOR_BLUE;
+        }
+    });
+
     findViewById(R.id.start_service_button).setOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(final View v) {
-        startService(new Intent(MainActivity.this, ExampleService.class));
-      }
+        @Override
+        public void onClick(final View v) {
+            startService(new Intent(MainActivity.this, ExampleService.class));
+        }
     });
   }
 
