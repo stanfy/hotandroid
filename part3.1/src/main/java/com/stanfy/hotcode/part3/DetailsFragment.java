@@ -43,7 +43,6 @@ public class DetailsFragment extends Fragment {
     name = (TextView) view.findViewById(R.id.person_name);
     score = (TextView) view.findViewById(R.id.person_score);
     date = (TextView) view.findViewById(R.id.person_date);
-
     if (person != null) {
       if (person.isCheater()) {
         view.findViewById(R.id.cheater).setVisibility(View.VISIBLE);
