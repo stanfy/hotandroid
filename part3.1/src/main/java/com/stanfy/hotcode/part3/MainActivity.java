@@ -26,12 +26,10 @@ public class MainActivity extends FragmentActivity {
   }
 
   public String getPersonNameColumnName() {
-    //FIXME
-    return null;
+    return Person.Contract.COLUMN_NAME;
   }
   public String getPersonScoreColumnName() {
-    //FIXME
-    return null;
+    return Person.Contract.COLUMN_SCORE;
   }
 
   public void showDetails(final Person person) {
